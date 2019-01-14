@@ -1,15 +1,15 @@
-const int stepPinX = 8; //clk
-const int dirPinX = 9; //CW
-const int enablePinX = 10; //en
+const int stepPinX = 11; //clk
+const int dirPinX = 12; //CW
+const int enablePinX = 13; //en
 
-const int stepPinY = 11;  //clk
-const int dirPinY = 12;   //CW
-const int enablePinY = 13; //en
+const int stepPinY = 8;  //clk
+const int dirPinY = 9;   //CW
+const int enablePinY = 10; //en
 
-const int limitSwitchXFront = 4;
-const int limitSwitchXBack = 5;
-const int limitSwitchYFront = 6;
-const int limitSwitchYBack = 7;
+const int limitSwitchXFront = 7;
+const int limitSwitchXBack = 6;
+const int limitSwitchYFront = 4;
+const int limitSwitchYBack = 5;
 
 const int stepTime = 500;  // half clock time
 
@@ -159,12 +159,14 @@ void returnToZero() {
 }
 
 boolean reachedLimitSwitch(int switchPin) {
+  boolean switchState = LOW;
   if (digitalRead(switchPin) == LOW) {
-    return HIGH;
+    delay(2);
+    if (digitalRead(switchPin) == LOW) {
+      switchState = HIGH;
+    }
   }
-  else {
-    return LOW;
-  }
+  return switchState;
 }
 
 void listenForCharacter(){

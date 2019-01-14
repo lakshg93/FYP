@@ -1,7 +1,7 @@
-const int limitSwitchXFront = 4;
-const int limitSwitchXBack = 5;
-const int limitSwitchYFront = 6;
-const int limitSwitchYBack = 7;
+const int limitSwitchXFront = 7;
+const int limitSwitchXBack = 6;
+const int limitSwitchYFront = 4;
+const int limitSwitchYBack = 5;
 
 char rx_byte = '0';
 
@@ -18,31 +18,25 @@ void loop() {
   listenForCharacter();         // listen for inputs from serial monitor and update it with rx_byte
   if (rx_byte = '1') {
     if (reachedLimitSwitch(limitSwitchXFront) == HIGH) {
-      Serial.print('1');
-      Serial.print('\n');
+      Serial.println('1');
+      }else if (reachedLimitSwitch(limitSwitchXBack) == HIGH) {
+      Serial.println('2');
+      }else if (reachedLimitSwitch(limitSwitchYFront) == HIGH) {
+      Serial.println('3');
+    } else if (reachedLimitSwitch(limitSwitchYBack) == HIGH){
+      Serial.println('4');
     }
-    else if (reachedLimitSwitch(limitSwitchXBack) == HIGH) {
-      Serial.print('2');
-      Serial.print('\n');
-    }
-    else if (reachedLimitSwitch(limitSwitchYFront) == HIGH) {
-      Serial.print('3');
-      Serial.print('\n');
-    } else if (reachedLimitSwitch(limitSwitchYBack) == HIGH) {
-      Serial.print('4');
-      Serial.print('\n');
-    }
-  }
 }
-
-
+}
 boolean reachedLimitSwitch(int switchPin) {
+  boolean switchState = LOW;
   if (digitalRead(switchPin) == LOW) {
-    return HIGH;
+    delayMicroseconds(2);
+    if (digitalRead(switchPin) == LOW) {
+      switchState = HIGH;
+    }
   }
-  else {
-    return LOW;
-  }
+  return switchState;
 }
 
 void listenForCharacter() {
